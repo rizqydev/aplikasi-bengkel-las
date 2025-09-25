@@ -1,0 +1,10 @@
+GET http://localhost:3001/api/products
+
+
+POST http://localhost:3001/api/products
+json({
+	"name": "Batu Potong", # name is templated, if spcified via env or property, it will be replaced
+    "brand": "WD",
+	"qty": 3,
+    "information": "tidak ada",
+})
