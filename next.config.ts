@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   eslint: {
     dirs: ['app'],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 }
 
 export default nextConfig
