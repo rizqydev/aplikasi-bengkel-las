@@ -16,7 +16,7 @@ export async function POST(req: Request) {
   const body = await req.json()
   const parsed = userSchema.safeParse(body)
   if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error.flatten }, { status: 400 })
+    return NextResponse.json({ error: parsed.error!.issues }, { status: 400 })
   }
 
   const { username, password, name, userRole } = parsed.data

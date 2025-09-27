@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { ZodError } from 'zod'
 
 interface User {
   _id: string
@@ -12,6 +13,7 @@ interface User {
 
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([])
+  const [errorMessages, setErrorMessages] = useState([])
   const [form, setForm] = useState({
     username: '',
     password: '',
@@ -55,6 +57,9 @@ export default function UsersPage() {
         const created = await res.json()
         setUsers([created, ...users])
         setForm({ username: '', password: '', name: '', userRole: 'user', email: '' })
+      } else {
+        const error = await res.json()
+        setErrorMessages(error.error)
       }
     }
   }
@@ -78,6 +83,14 @@ export default function UsersPage() {
   return (
     <main className="p-6 max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Users</h1>
+      {errorMessages.length > 0 && (
+        <p>
+          Error
+          {errorMessages.map((val: ZodError, key: number) => (
+            <div key={key}>{val?.message}</div>
+          ))}
+        </p>
+      )}
       <form onSubmit={handleSubmit} className="space-y-2 mb-6">
         <input
           type="text"
@@ -89,7 +102,7 @@ export default function UsersPage() {
           required
         />
         <input
-          type="email"
+          type="text"
           name="email"
           placeholder="Email"
           value={form.email}

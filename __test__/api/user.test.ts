@@ -31,6 +31,7 @@ describe('User API handlers', () => {
   it('creates a user', async () => {
     const req = makeRequest({
       username: 'rizqy',
+      email: 'rizqy.dev@gmail.com',
       password: 'nurhaqy',
       name: 'rizqy',
       userRole: 'admin',
@@ -63,18 +64,20 @@ describe('User API handlers', () => {
     const created = await User.create({
       username: 'xxx',
       name: 'Mouse',
+      email: '123@gmail.com',
       passwordHash: 'Logitech',
       userRole: 'user',
     })
 
     userId = created._id.toString()
 
-    const req = makeRequest({ name: 'Ujang' }, 'PUT')
+    const req = makeRequest({ name: 'Ujang', email: '234@gmail.com' }, 'PUT')
     const res = await updateUser(req, { params: { id: userId } })
     const data = await res.json()
 
     expect(res.status).toBe(200)
     expect(data.name).toBe('Ujang')
+    expect(data.email).toBe('234@gmail.com')
   })
 
   it('deletes a user', async () => {
@@ -94,6 +97,5 @@ describe('User API handlers', () => {
     const data = await res.json()
 
     expect(res.status).toBe(200)
-    // expect(data.success).toBe(true)
   })
 })
